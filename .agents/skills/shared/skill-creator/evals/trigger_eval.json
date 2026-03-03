@@ -1,0 +1,10 @@
+[
+  {
+    "query": "I want to create a skill",
+    "should_trigger": true
+  },
+  {
+    "query": "read file X",
+    "should_trigger": false
+  }
+]

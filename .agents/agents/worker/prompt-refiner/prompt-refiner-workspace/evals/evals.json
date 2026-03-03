@@ -1,0 +1,23 @@
+{
+  "agent_name": "prompt-refiner",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Ich hab hier nen Prompt für meinen daily-planning agent, der ist aber voll chaotisch geschrieben. Kannst du den mal aufräumen und besser machen? Hier ist er:\n\n'du bist ein agent der mir hilft meinen tag zu planen. schau dir meinen kalender an und meine offenen tasks und dann mach mir eine zusammenfassung was ich heute machen soll. wenn was dringend ist sag mir das zuerst. auch wenn meetings sind die ich vorbereiten muss. nutz die tools die du hast.'",
+      "expected_output": "A well-structured English agent prompt with clear sections (Role, Context, Directives), semantic headers, explicit tool references, prioritization logic, and removed ambiguities like 'die tools die du hast'.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I have this Python function and the docstring is a mess. Can you clean it up so it's properly formatted and useful for both devs and AI code assistants?\n\n```python\ndef process_data(data, config, output_path=None, strict=False):\n    # processes the data\n    # config has settings\n    # returns result or writes to file\n    result = validate(data)\n    if strict:\n        result = enforce_rules(result, config)\n    if output_path:\n        write_output(result, output_path)\n    return result\n```",
+      "expected_output": "A standardized docstring (Google-style or NumPy-style) with Args, Returns, Raises sections. Inline comments replaced with meaningful ones. The 'processes the data' comment replaced with actual description of what the function does.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Refine this workflow step description so agents can parse it better. It currently reads:\n\n'After the user gives input, check if files exist and if they do read them and make a summary. If they dont exist tell the user. Also make sure to handle errors gracefully and dont break the flow. The output should be nice and readable.'",
+      "expected_output": "Restructured into explicit steps with numbered sequence, defined error handling behavior, specified what 'nice and readable' means concretely (e.g., Markdown formatting, bullet points), and resolved the vague 'handle errors gracefully' into specific recovery actions.",
+      "files": []
+    }
+  ]
+}
