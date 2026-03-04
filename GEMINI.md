@@ -101,6 +101,7 @@ Purpose-built skills for the Daily Helper's unique requirements.
 To ensure the `.agents/skills/` directory remains clean and scalable, we apply the **Enterprise Domain Organization** pattern:
 * **Master Routers:** Each agent gets exactly one top-level "Master Skill" (e.g., `skills-consultant/SKILL.md`).
 * **Resource Delegation:** The Master Skill's sole responsibility is routing. It analyzes the user request and uses the `Read` tool to load specific deep-dive reference documents stored in its local `ressources/` folder.
+* **Strict Pathing Syntax:** Master Routers MUST use the deterministic IDE linking syntax `@[Link-Name](.agents/skills/skills-[agent-name]/ressources/...)` when defining available modules to ensure reliable file resolution for the Agent's Read tool.
 * **Avoids Clutter:** This prevents dozens of fragmented skills from cluttering the IDE's skill scanner, while ensuring the agent only loads the exact Token-heavy context it needs for the current task.
 
 ### 6.4 Skill Design Principles
