@@ -97,7 +97,13 @@ Purpose-built skills for the Daily Helper's unique requirements.
 * `context-prep`: Prepares the workspace with necessary files for a specific context mode.
 * `agent-creator`: Scaffolds and guides the design of new AI target-agents for the ecosystem based on an interview process.
 
-### 6.3 Skill Design Principles
+### 6.3 Enterprise Domain Organization
+To ensure the `.agents/skills/` directory remains clean and scalable, we apply the **Enterprise Domain Organization** pattern:
+* **Master Routers:** Each agent gets exactly one top-level "Master Skill" (e.g., `skills-consultant/SKILL.md`).
+* **Resource Delegation:** The Master Skill's sole responsibility is routing. It analyzes the user request and uses the `Read` tool to load specific deep-dive reference documents stored in its local `ressources/` folder.
+* **Avoids Clutter:** This prevents dozens of fragmented skills from cluttering the IDE's skill scanner, while ensuring the agent only loads the exact Token-heavy context it needs for the current task.
+
+### 6.4 Skill Design Principles
 
 * **Single Responsibility:** Each skill does exactly one thing well.
 * **Composability:** Expected outputs of one skill should easily pipe into the inputs of another workflow step.
