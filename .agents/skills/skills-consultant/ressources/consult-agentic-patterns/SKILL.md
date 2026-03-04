@@ -7,4 +7,4 @@ description: An advisory skill focusing on multi-agent architectures, patterns a
 
 # Agentic Patterns Advisory
 
-Use the reference material in `./references/pattern-catalog.md` to help the user.
+Use the reference material in `.agents/skills/skills-consultant/ressources/consult-agentic-patterns/references/pattern-catalog.md` to help the user.
