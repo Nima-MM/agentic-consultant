@@ -24,8 +24,8 @@ You are analyzing the user's technical query. Depending on the specific topic th
 3. **Debug Strategy** (Pending implementation)
    Guides systematic debugging of complex issues across AI-assisted workflows, including prompt failures, tool misconfigurations, and integration problems.
 
-4. **Architecture Review** (Pending implementation)
-   Reviews system designs, project structures, and technical decisions against current best practices and suggests concrete improvements.
+4. **Architecture Review** (@[`.agents/skills/skills-consultant/ressources/consult-architecture-review/SKILL.md`])
+   Read this file when you need to review system designs, project structures, and technical decisions against current best practices. Provides a structured review framework with severity ratings, an anti-pattern catalog, and concrete improvement recommendations.
 
 5. **Workflow Optimizer** (Pending implementation)
    Analyzes existing development workflows and proposes optimizations based on available AI tooling, automation opportunities, and efficiency gains.
