@@ -73,7 +73,7 @@ The system relies on a swarm of specialized agents. Each has a tightly scoped ro
 
 * **Daily-Planning-Agent:** Analyzes schedules, prior conversation logs, and task trackers to draft a daily agenda.
 * **Research-Agent:** Specifically given read-only access to browse the web, read files, and synthesize technical documentation.
-* **Execution-Agent:** Given write access to execute code, run commands, and apply concrete file changes based on approved plans.
+* **Execution-Agent:** Given write access to execute code, run commands, and apply concrete file changes based on approved plans (*Requires strict Human-in-the-Loop approval for destructive/system-altering actions*).
 * **Review-Agent:** Analyzes diffs, checks against style guides, and ensures Markdown/Code linting rules are followed before finalization.
 
 ---
