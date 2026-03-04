@@ -12,6 +12,7 @@ A structured framework for reviewing system designs, project structures, and tec
    - Maintainability & Evolvability
    - Security Posture
    - Operational Readiness
+   - Agent Architecture Quality *(Agentic Systems only)*
 3. [Severity System](#severity-system)
 4. [Anti-Pattern Catalog](#anti-pattern-catalog)
 5. [Output Template](#output-template)
@@ -286,6 +287,53 @@ Grep: Search for console.log/print patterns, error handling in HTTP clients
 
 ---
 
+### 7. Agent Architecture Quality *(Agentic Systems only)*
+
+Applied **only when reviewing Antigravity IDE projects** (i.e., a `.agents/` directory is present).
+Evaluates the design quality of agents, skills, and workflows as architectural components.
+
+**What to examine:**
+
+- **Agent Scope:** Does each agent have a single, clearly bounded responsibility? Or is it an overloaded catch-all?
+- **Tool Allowlist:** Are tool permissions minimal and justified? Tools like `Write` and `Bash` should require explicit rationale.
+- **Skill Granularity:** Are skills atomic and composable, or monolithic mega-prompts doing too many things?
+- **Routing Accuracy:** Does the master router correctly identify and dispatch all query categories? Are there routing gaps?
+- **Context Efficiency:** Do skills load only the tokens they need for a specific query, or do they flood the context window unconditionally?
+- **Prompt Quality:** Do agent definitions include a clear role, explicit constraints, output format expectations, and model tier guidance?
+- **Human-in-the-Loop Compliance:** Are all potentially destructive operations (`Write`, `Bash`) gated behind explicit HitL checkpoints?
+- **Pending Module Coverage:** Are `(Pending)` skill stubs clearly documented in the master router to prevent silent routing failures?
+- **Naming Conventions:** Are agents, skills, and workflows named consistently (e.g., `skills-<agent>`, `consult-<domain>`, descriptive workflow filenames)?
+
+**Signals of health:**
+
+- Each agent uses ≤5 tools with clear justification for each
+- Skills use the Enterprise Domain Organization pattern (one master router per agent)
+- Master router directives explicitly state "load exactly one specialist skill"
+- All agents with `Write`/`Bash` access include HitL constraints in their definition
+- Skill descriptions accurately reflect actual capability (no over-promising)
+- Pending modules are marked and won't silently fail if accidentally routed to
+
+**Red flags:**
+
+- Agents with 8+ tools and no routing skill (scope creep)
+- Skills that always load 500+ lines regardless of query specificity (context flooding)
+- Missing `user-invocable: true` on skills intended for direct user access
+- Agent definitions without HitL constraints on `Write`/`Bash` operations
+- Duplicate skills with overlapping functionality (split poorly from prior monolith)
+- Master router with no fallback behavior for unrecognized query types
+- Agents referencing non-existent skill files or incorrect paths
+
+**How to investigate:**
+
+```text
+Glob: Map .agents/ tree — agents, skills, workflows, ressources
+Read: Examine agent frontmatter (tools list, model tier), SKILL.md descriptions
+Grep: Search for "Write" and "Bash" in agent definitions to find high-risk tools
+Bash: Run architecture-discovery.sh — the Agentic System Snapshot section covers this dimension
+```
+
+---
+
 ## Severity System
 
 Use these severity levels to classify findings. The goal is to give the user a clear sense of urgency:
@@ -385,13 +433,14 @@ Frame this as: "The architecture is [assessment] with [key strength], but [prima
 ## Architecture Scorecard
 
 | Dimension | Score (1-5) | Note |
-|---|---|---|
+| --- | --- | --- |
 | Structural Integrity | | |
 | Dependency Health | | |
 | Scalability & Performance | | |
 | Maintainability & Evolvability | | |
 | Security Posture | | |
 | Operational Readiness | | |
+| Agent Architecture Quality | | *(Agentic IDE projects only)* |
 
 **Scoring guide:** 1 = Critical issues, needs immediate attention. 2 = Significant gaps. 3 = Adequate, with room for improvement. 4 = Good, follows best practices. 5 = Excellent, could serve as reference implementation.
 
@@ -410,14 +459,15 @@ Each item: what to do, why it matters, rough effort estimate.]
 Guidance on which tools to use for different review activities:
 
 | Activity | Primary Tool | When to Use |
-|---|---|---|
+| --- | --- | --- |
 | Map project structure | `Glob` | Always — first step of every review |
 | Read configs and entry points | `Read` | Always — understand the project's foundations |
 | Find cross-cutting patterns | `Grep` | When checking for consistency (error handling, logging, auth patterns) |
 | Count occurrences | `Grep` | TODO/FIXME density, hardcoded values, import patterns |
 | Check dependency freshness | `search_web` | When external deps look stale or when checking for CVEs |
 | Verify best practices | `search_web` | When uncertain about current recommendations for a specific tech stack |
+| Automated project snapshot | `Bash` | Run `architecture-discovery.sh` as Step 0 of every review |
 | Create diagrams or docs | `Write` | When the review benefits from a visual dependency graph or written ADR |
-| Run analysis scripts | `Bash` | When programmatic analysis is more reliable than manual inspection (line counts, complexity metrics) |
+| Run analysis scripts | `Bash` | When programmatic analysis is more reliable than manual inspection |
 
 **Important:** Ground your findings in actual code and configuration, not assumptions. If you suspect an issue but can't confirm it from the files, say so explicitly — "Based on the absence of X, I suspect Y, but this should be verified."
